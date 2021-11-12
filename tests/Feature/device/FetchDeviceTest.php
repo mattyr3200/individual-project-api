@@ -1,7 +1,9 @@
 <?php
 
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Device;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FetchDeviceTest extends TestCase
@@ -11,6 +13,8 @@ class FetchDeviceTest extends TestCase
     /** @test */
     public function test_user_can_fetch_devices()
     {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
         $device = Device::factory()->create();
 
         $response = $this->getJson(route('device.index'))->json();
@@ -26,6 +30,8 @@ class FetchDeviceTest extends TestCase
     /** @test */
     public function test_user_can_fetch_singular_device()
     {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
         $device = Device::factory()->create();
 
         $response = $this->getJson(route('device.show', ['device' => $device]))->json();
@@ -35,5 +41,25 @@ class FetchDeviceTest extends TestCase
         $this->assertSame($device->name, $response['name']);
         $this->assertSame($device->site, $response['site']);
         $this->assertSame($device->id, $response['id']);
+    }
+
+    /** @test */
+    public function test_guest_cannot_fetch_singular_device()
+    {
+        $device = Device::factory()->create();
+
+        $response = $this->getJson(route('device.show', ['device' => $device]));
+
+        $response->assertUnauthorized();
+    }
+
+    /** @test */
+    public function test_guest_cannot_fetch_devices()
+    {
+        $device = Device::factory()->create();
+
+        $response = $this->getJson(route('device.index'));
+
+        $response->assertUnauthorized();
     }
 }

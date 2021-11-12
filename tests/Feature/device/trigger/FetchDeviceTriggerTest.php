@@ -1,8 +1,10 @@
 <?php
 
-use App\Models\Trigger;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Trigger;
+use Laravel\Sanctum\Sanctum;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FetchDeviceTriggerTest extends TestCase
 {
@@ -11,6 +13,8 @@ class FetchDeviceTriggerTest extends TestCase
     /** @test */
     public function test_user_can_fetch_device_triggers()
     {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
         $trigger = Trigger::factory()->create();
 
         $response = $this->getJson(route('trigger.index'))->json();
@@ -30,6 +34,8 @@ class FetchDeviceTriggerTest extends TestCase
     /** @test */
     public function test_user_can_fetch_single_device_triggers()
     {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
         $trigger = Trigger::factory()->create();
 
         $response = $this->getJson(route('trigger.show', $trigger->id))->json();
@@ -43,5 +49,23 @@ class FetchDeviceTriggerTest extends TestCase
         $this->assertEquals($trigger->trigger_voltage, $response['trigger_voltage']);
         $this->assertEquals($trigger->id, $response['id']);
         $this->assertEquals($trigger->device->id, $response['device']['id']);
+    }
+
+    /** @test */
+    public function test_guest_cannot_fetch_device_triggers()
+    {
+        $response = $this->getJson(route('trigger.index'));
+
+        $response->assertUnauthorized();
+    }
+
+
+    public function test_guest_cannot_fetch_single_device_triggers()
+    {
+        $trigger = Trigger::factory()->create();
+
+        $response = $this->getJson(route('trigger.show', $trigger->id));
+
+        $response->assertUnauthorized();
     }
 }

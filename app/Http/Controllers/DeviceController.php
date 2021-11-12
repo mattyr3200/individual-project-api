@@ -27,7 +27,9 @@ class DeviceController extends Controller
      */
     public function store(CreateDeviceRequest $request)
     {
-        return new DeviceResource(Device::create($request->validated()));
+        return new DeviceResource(
+            $request->user()->devices()->create($request->validated())
+        );
     }
 
     /**

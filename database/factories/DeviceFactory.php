@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Models\Device;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +24,8 @@ class DeviceFactory extends Factory
     {
         return [
             "name" => $this->faker->sentence(),
-            "site" => "Home"
+            "site" => "Home",
+            'user_id' => User::factory()->create()->id,
         ];
     }
 }

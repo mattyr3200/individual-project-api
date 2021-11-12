@@ -1,7 +1,9 @@
 <?php
 
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Device;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateDeviceTriggerTest extends TestCase
@@ -11,6 +13,8 @@ class CreateDeviceTriggerTest extends TestCase
     /** @test */
     public function test_user_can_create_trigger()
     {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
         $trigger = $this->postJson(route('trigger.store'), [
             "name" => "TEST NAME",
             "description" => "TEST DESCRIPTION",
