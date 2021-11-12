@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Device;
+use App\Models\Trigger;
+use App\Policies\DevicePolicy;
+use App\Policies\TriggerPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,6 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Device::class => DevicePolicy::class,
+        Trigger::class => TriggerPolicy::class,
     ];
 
     /**

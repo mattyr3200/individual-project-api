@@ -31,7 +31,9 @@ Route::post('/register', RegisterController::class)->name('register');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('device', DeviceController::class);
 
-    Route::apiResource('trigger', TriggerController::class);
+    Route::apiResource('trigger', TriggerController::class)->except('index');
+
+    Route::get('/{device}/triggers', [TriggerController::class, 'index'])->name('trigger.index');
 
     Route::delete('/{device}/token', [DeviceTokenController::class, 'destroy'])->middleware(["ability:delete-token"])->name('device.token.destroy');
 });

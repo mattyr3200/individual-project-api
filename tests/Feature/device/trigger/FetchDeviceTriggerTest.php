@@ -2,6 +2,7 @@
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Device;
 use App\Models\Trigger;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,11 +14,17 @@ class FetchDeviceTriggerTest extends TestCase
     /** @test */
     public function test_user_can_fetch_device_triggers()
     {
+        $this->withoutExceptionHandling();
+
         Sanctum::actingAs($user = User::factory()->create(), ['*']);
 
-        $trigger = Trigger::factory()->create();
+        $trigger = Trigger::factory()->create([
+            'device_id' => Device::factory()->create([
+                'user_id' => $user->id,
+            ])->id
+        ]);
 
-        $response = $this->getJson(route('trigger.index'))->json();
+        $response = $this->getJson(route('trigger.index', ['device' => $trigger->device]))->json();
 
         $this->assertCount(1, $response);
         $this->assertCount(6, $response[0]);
@@ -36,7 +43,11 @@ class FetchDeviceTriggerTest extends TestCase
     {
         Sanctum::actingAs($user = User::factory()->create(), ['*']);
 
-        $trigger = Trigger::factory()->create();
+        $trigger = Trigger::factory()->create([
+            'device_id' => Device::factory()->create([
+                'user_id' => $user->id,
+            ])->id
+        ]);
 
         $response = $this->getJson(route('trigger.show', $trigger->id))->json();
 
@@ -54,7 +65,9 @@ class FetchDeviceTriggerTest extends TestCase
     /** @test */
     public function test_guest_cannot_fetch_device_triggers()
     {
-        $response = $this->getJson(route('trigger.index'));
+        $trigger = Trigger::factory()->create();
+
+        $response = $this->getJson(route('trigger.index', ['device' => $trigger->device_id]));
 
         $response->assertUnauthorized();
     }
@@ -67,5 +80,29 @@ class FetchDeviceTriggerTest extends TestCase
         $response = $this->getJson(route('trigger.show', $trigger->id));
 
         $response->assertUnauthorized();
+    }
+
+    /** @test */
+    public function user_cannot_fetch_another_users_devices()
+    {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
+        $trigger = Trigger::factory()->create();
+
+        $response = $this->getJson(route('trigger.index', ['device' => $trigger->device_id]));
+
+        $response->assertForbidden();
+    }
+
+    /** @test */
+    public function user_cannot_fetch_another_users_device()
+    {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
+        $trigger = Trigger::factory()->create();
+
+        $response = $this->getJson(route('trigger.show', ['trigger' => $trigger]));
+
+        $response->assertForbidden();
     }
 }

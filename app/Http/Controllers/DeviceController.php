@@ -3,12 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\DeviceResource;
 use App\Http\Requests\CreateDeviceRequest;
 use App\Http\Requests\UpdateDeviceRequest;
-use App\Http\Resources\DeviceResource;
+use Laravel\Sanctum\Sanctum;
 
 class DeviceController extends Controller
 {
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Device::class, 'device');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +28,9 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        return DeviceResource::collection(Device::all());
+        return DeviceResource::collection(
+            Device::where('user_id', Auth::user()->id)->get()
+        );
     }
 
     /**

@@ -15,7 +15,9 @@ class FetchDeviceTest extends TestCase
     {
         Sanctum::actingAs($user = User::factory()->create(), ['*']);
 
-        $device = Device::factory()->create();
+        $device = Device::factory()->create([
+            'user_id' => $user->id
+        ]);
 
         $response = $this->getJson(route('device.index'))->json();
 
@@ -32,7 +34,9 @@ class FetchDeviceTest extends TestCase
     {
         Sanctum::actingAs($user = User::factory()->create(), ['*']);
 
-        $device = Device::factory()->create();
+        $device = Device::factory()->create([
+            'user_id' => $user->id
+        ]);
 
         $response = $this->getJson(route('device.show', ['device' => $device]))->json();
 
@@ -61,5 +65,29 @@ class FetchDeviceTest extends TestCase
         $response = $this->getJson(route('device.index'));
 
         $response->assertUnauthorized();
+    }
+
+    /** @test */
+    public function user_cannot_fetch_another_users_devices()
+    {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
+        $device = Device::factory(10)->create();
+
+        $response = $this->getJson(route('device.index'))->json();
+
+        $this->assertCount(0, $response);
+    }
+
+    /** @test */
+    public function user_cannot_fetch_another_users_device()
+    {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
+        $device = Device::factory()->create();
+
+        $response = $this->getJson(route('device.show', ['device' => $device]));
+
+        $response->assertForbidden();
     }
 }

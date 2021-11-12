@@ -2,21 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Device;
 use App\Models\Trigger;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\TriggerResource;
 use App\Http\Requests\CreateTriggerRequest;
 
 class TriggerController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Trigger::class, 'trigger');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Device $device = null)
     {
-        return TriggerResource::collection(Trigger::all());
+        if ((string) $device->user_id !== (string) Auth::user()->id) {
+            abort(403);
+        }
+
+        return TriggerResource::collection(
+            Trigger::where('device_id', $device->id)->get()
+        );
     }
 
     /**

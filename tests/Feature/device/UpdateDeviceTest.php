@@ -15,7 +15,9 @@ class UpdateDeviceTest extends TestCase
     {
         Sanctum::actingAs($user = User::factory()->create(), ['*']);
 
-        $device = Device::factory()->create();
+        $device = Device::factory()->create([
+            'user_id' => $user->id
+        ]);
 
         $response = $this->putJson(route('device.update', ['device' => $device->id]), [
             'name' => "TEST NAME"
@@ -38,5 +40,19 @@ class UpdateDeviceTest extends TestCase
         ]);
 
         $response->assertUnauthorized();
+    }
+
+    /** @test */
+    public function test_user_cannot_update_other_users_device()
+    {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
+        $device = Device::factory()->create();
+
+        $response = $this->putJson(route('device.update', ['device' => $device->id]), [
+            'name' => "TEST NAME"
+        ]);
+
+        $response->assertForbidden();
     }
 }
