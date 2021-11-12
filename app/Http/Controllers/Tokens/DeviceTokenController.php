@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Token;
+namespace App\Http\Controllers\Tokens;
 
 use App\Models\Device;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TokenResource;
 
 class DeviceTokenController extends Controller
 {
@@ -18,9 +19,9 @@ class DeviceTokenController extends Controller
     {
         $token = $device->createToken($device->name, ['create:trigger-log']);
 
-        return [
+        return new TokenResource([
             "token" => $token->plainTextToken
-        ];
+        ]);
     }
 
     public function destroy (Device $device, Request $request) {

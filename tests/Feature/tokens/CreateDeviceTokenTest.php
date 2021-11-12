@@ -11,6 +11,8 @@ class CreateDeviceTokenTest extends TestCase
     /** @test */
     public function device_can_create_token()
     {
+        $this->withoutExceptionHandling();
+
         $device = Device::factory()->create();
 
         $response = $this->getJson(route("device.token.create", $device->id))->json();
