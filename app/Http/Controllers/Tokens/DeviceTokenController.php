@@ -17,7 +17,7 @@ class DeviceTokenController extends Controller
      */
     public function create (Device $device)
     {
-        $token = $device->createToken($device->name, ['create:trigger-log']);
+        $token = $device->createToken($device->name, ['create-trigger-log']);
 
         return new TokenResource([
             "token" => $token->plainTextToken

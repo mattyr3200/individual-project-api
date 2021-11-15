@@ -7,6 +7,7 @@ use App\Http\Controllers\TriggerController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Tokens\DeviceTokenController;
+use App\Http\Controllers\TriggerLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('device', DeviceController::class);
 
     Route::apiResource('trigger', TriggerController::class)->except('index');
+
+    Route::post('/trigger/log', [TriggerLogController::class, 'store'])->middleware('ability:create-trigger-log')->name('trigger.log.store');
+
+    Route::apiResource('triggerLog', TriggerLogController::class)->except('index');
 
     Route::get('/{device}/triggers', [TriggerController::class, 'index'])->name('trigger.index');
 

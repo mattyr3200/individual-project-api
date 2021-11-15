@@ -17,7 +17,7 @@ class DeleteDeviceTokenTest extends TestCase
 
         $device = Device::factory()->create();
 
-        $device->createToken("TEST TOKEN", ['create:trigger-log']);
+        $device->createToken("TEST TOKEN", ['create-trigger-log']);
 
         $response = $this->deleteJson(route("device.token.destroy", $device->id));
 
@@ -29,7 +29,7 @@ class DeleteDeviceTokenTest extends TestCase
     {
         $device = Device::factory()->create();
 
-        $device->createToken("TEST TOKEN", ['create:trigger-log']);
+        $device->createToken("TEST TOKEN", ['create-trigger-log']);
 
         $response = $this->deleteJson(route("device.token.destroy", $device->id));
 

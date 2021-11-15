@@ -12,7 +12,7 @@ class CreateDeviceTest extends TestCase
     /** @test */
     public function test_user_can_create_device()
     {
-        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+        Sanctum::actingAs(User::factory()->create(), ['*']);
 
         $device = $this->postJson(route('device.store'), [
             'name' => "TEST NAME",

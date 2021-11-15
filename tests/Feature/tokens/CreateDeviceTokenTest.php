@@ -22,7 +22,7 @@ class CreateDeviceTokenTest extends TestCase
         $device->refresh();
 
         foreach ($device->tokens as $token) {
-            $this->assertEquals(['create:trigger-log'], $token->abilities);
+            $this->assertEquals(['create-trigger-log'], $token->abilities);
         }
     }
 }
