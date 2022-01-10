@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth\Web;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\TokenResource;
 use App\Http\Requests\Auth\RegisterRequest;
-use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {

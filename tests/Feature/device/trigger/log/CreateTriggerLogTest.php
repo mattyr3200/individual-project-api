@@ -57,6 +57,8 @@ class CreateTriggerLogTest extends TestCase
     /** @test */
     public function device_cannot_create_trigger_log_when_no_device_has_no_token()
     {
+        Device::factory()->create();
+
         $response = $this->postJson(route('trigger.log.store'), [
             "voltage" => true, //High Voltage
             "wire" => 1

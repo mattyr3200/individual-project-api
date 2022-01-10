@@ -1,13 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\TriggerController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Tokens\DeviceTokenController;
+use App\Http\Controllers\Auth\Web\LoginController;
 use App\Http\Controllers\TriggerLogController;
+use App\Http\Controllers\Auth\Web\RegisterController;
+use App\Http\Controllers\Tokens\DeviceTokenController;
 
 /*
 |--------------------------------------------------------------------------

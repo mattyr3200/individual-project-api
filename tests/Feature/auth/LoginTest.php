@@ -16,7 +16,6 @@ class LoginTest extends TestCase
         $response = $this->postJson(route('login'), [
             'email' => $user->email,
             'password' => "password",
-            'device_name' => "iphone",
         ]);
 
         $response->assertOk();
@@ -30,7 +29,6 @@ class LoginTest extends TestCase
         $response = $this->postJson(route('login'), [
             'email' => "email@weirdEmailDude.com",
             'password' => "password",
-            'device_name' => "iphone",
         ]);
 
         $response->assertStatus(422);
@@ -46,7 +44,6 @@ class LoginTest extends TestCase
         $response = $this->postJson(route('login'), [
             'email' => $user->email,
             'password' => "ThisIsntAPassword123!",
-            'device_name' => "iphone",
         ]);
 
         $response->assertStatus(422);
