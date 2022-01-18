@@ -26,7 +26,7 @@ class RegisterController extends Controller
         );
 
         return new TokenResource([
-            'token' => $user->createToken($request->device_name)->plainTextToken
+            'token' => $user->createToken("API Token")->plainTextToken
         ]);
     }
 }

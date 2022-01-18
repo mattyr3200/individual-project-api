@@ -31,8 +31,7 @@ class RegisterRequest extends FormRequest
                 'min:6',
                 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
                 'confirmed'
-            ],
-            'device_name' => 'required',
+            ]
         ];
     }
 }
