@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\TriggerController;
-use App\Http\Controllers\Auth\Web\LoginController;
 use App\Http\Controllers\TriggerLogController;
+use App\Http\Controllers\StatusCheckController;
+use App\Http\Controllers\Auth\Web\LoginController;
 use App\Http\Controllers\Auth\Web\RegisterController;
 use App\Http\Controllers\Tokens\DeviceTokenController;
 
@@ -28,7 +30,11 @@ Route::get('/{device}/token', [DeviceTokenController::class, 'create'])->name('d
 Route::post('/login', LoginController::class)->name('login');
 Route::post('/register', RegisterController::class)->name('register');
 
+Route::get("/status", StatusCheckController::class)->name('status');
+
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get("/user", UserController::class)->name('user');
+
     Route::apiResource('device', DeviceController::class);
 
     Route::apiResource('trigger', TriggerController::class)->except('index');
