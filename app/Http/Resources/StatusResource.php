@@ -15,8 +15,8 @@ class StatusResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "time" => $this->time,
-            "signed_in" => $this->signed_in,
+            "time" => $this["time"],
+            "signed_in" => $this["signed_in"],
         ];
     }
 }

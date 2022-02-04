@@ -11,10 +11,6 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        return new UserResource ([
-            "name" => $user->name,
-            "email" => $user->email,
-            "id" => $user->id,
-        ]);
+        return new UserResource ($user);
     }
 }
