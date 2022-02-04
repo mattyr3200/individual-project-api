@@ -24,8 +24,8 @@ class CreateTriggerLogRequest extends FormRequest
     public function rules()
     {
         return [
-            "voltage" => 'boolean|required',
-            "wire" => 'required',
+            'voltage' => 'boolean|required',
+            'wire' => 'required',
         ];
     }
 }

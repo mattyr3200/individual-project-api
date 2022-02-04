@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Traits\UUID;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Trigger extends Model
 {
@@ -18,9 +18,8 @@ class Trigger extends Model
         'trigger_voltage' => 'boolean',
     ];
 
-
-    public function device () : HasOne
+    public function device(): HasOne
     {
-        return $this->hasOne(Device::class, "id", "device_id");
+        return $this->hasOne(Device::class, 'id', 'device_id');
     }
 }

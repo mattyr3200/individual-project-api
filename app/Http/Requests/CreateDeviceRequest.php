@@ -24,8 +24,8 @@ class CreateDeviceRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => "required",
-            'site' => "required",
+            'name' => 'required',
+            'site' => 'required',
         ];
     }
 }

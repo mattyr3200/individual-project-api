@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTriggerRequest;
+use App\Http\Resources\TriggerResource;
 use App\Models\Device;
 use App\Models\Trigger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\TriggerResource;
-use App\Http\Requests\CreateTriggerRequest;
 
 class TriggerController extends Controller
 {
@@ -26,7 +26,7 @@ class TriggerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Device $device = null)
+    public function index(?Device $device = null)
     {
         if ((string) $device->user_id !== (string) Auth::user()->id) {
             abort(403);
@@ -41,6 +41,7 @@ class TriggerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CreateTriggerRequest $request)
@@ -52,6 +53,7 @@ class TriggerController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Trigger  $trigger
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Trigger $trigger)
@@ -64,21 +66,23 @@ class TriggerController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Trigger  $trigger
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Trigger $trigger)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Trigger  $trigger
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Trigger $trigger)
     {
-        //
+        
     }
 }

@@ -14,6 +14,7 @@ class DevicePolicy
      * Determine whether the user can view any models.
      *
      * @param  \App\Models\User  $user
+     *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(User $user)
@@ -26,6 +27,7 @@ class DevicePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Device  $device
+     *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user, Device $device)
@@ -37,6 +39,7 @@ class DevicePolicy
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
+     *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(User $user)
@@ -49,6 +52,7 @@ class DevicePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Device  $device
+     *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function update(User $user, Device $device)
@@ -61,6 +65,7 @@ class DevicePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Device  $device
+     *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user, Device $device)
@@ -73,6 +78,7 @@ class DevicePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Device  $device
+     *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function restore(User $user, Device $device)
@@ -85,6 +91,7 @@ class DevicePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Device  $device
+     *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function forceDelete(User $user, Device $device)

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Device;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\DeviceResource;
 use App\Http\Requests\CreateDeviceRequest;
 use App\Http\Requests\UpdateDeviceRequest;
-use Laravel\Sanctum\Sanctum;
+use App\Http\Resources\DeviceResource;
+use App\Models\Device;
+use Illuminate\Support\Facades\Auth;
 
 class DeviceController extends Controller
 {
@@ -37,6 +36,7 @@ class DeviceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CreateDeviceRequest $request)
@@ -50,6 +50,7 @@ class DeviceController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Device  $device
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Device $device)
@@ -62,6 +63,7 @@ class DeviceController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Device  $device
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateDeviceRequest $request, Device $device)
@@ -75,10 +77,11 @@ class DeviceController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Device  $device
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Device $device)
     {
-        //
+        
     }
 }
