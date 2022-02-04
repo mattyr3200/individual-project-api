@@ -7,9 +7,9 @@ name: PHP-Insights
 
 on:
   push:
-    branches: [ main, development ]
+    branches: [ master, main, development ]
   pull_request:
-    branches: [ main, development ]
+    branches: [ master, main, development ]
 
 jobs:
   php-insights:
