@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Auth\Web\LoginController;
-use App\Http\Controllers\Auth\Web\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\StatusCheckController;
 use App\Http\Controllers\Tokens\DeviceTokenController;
@@ -33,6 +34,8 @@ Route::post('/register', RegisterController::class)->name('register');
 Route::get('/status', StatusCheckController::class)->name('status');
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/logout', LogoutController::class)->name('logout');
+
     Route::get('/user', UserController::class)->name('user');
 
     Route::apiResource('device', DeviceController::class);
