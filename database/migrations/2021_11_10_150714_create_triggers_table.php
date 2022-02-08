@@ -18,7 +18,7 @@ class CreateTriggersTable extends Migration
             $table->uuid("id")->primary();
             $table->string('wire');
             $table->boolean('trigger_voltage');
-            $table->foreignIdFor(Device::class, 'device_id');
+            $table->foreignUuid('device_id');
             $table->string('name');
             $table->string("description");
             $table->softDeletes();

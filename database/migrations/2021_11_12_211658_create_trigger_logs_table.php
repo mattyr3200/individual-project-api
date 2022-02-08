@@ -16,7 +16,7 @@ class CreateTriggerLogsTable extends Migration
     {
         Schema::create('trigger_logs', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignIdFor(Trigger::class, 'trigger_id');
+            $table->foreignUuid('trigger_id');
             $table->timestamps();
         });
     }
