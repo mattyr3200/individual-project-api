@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Auth\Web;
+namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Resources\TokenResource;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\TokenResource;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -14,6 +14,7 @@ class RegisterController extends Controller
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function __invoke(RegisterRequest $request)
@@ -26,7 +27,7 @@ class RegisterController extends Controller
         );
 
         return new TokenResource([
-            'token' => $user->createToken("API Token")->plainTextToken
+            'token' => $user->createToken('API Token')->plainTextToken,
         ]);
     }
 }

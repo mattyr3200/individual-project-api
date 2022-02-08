@@ -24,11 +24,11 @@ class CreateTriggerRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => ['required',],
-            "description" => ['required'],
-            "wire" => ['required'],
-            "trigger_voltage" => ['required'],
-            "device_id" => ['required'],
+            'name' => ['required'],
+            'description' => ['required'],
+            'wire' => ['required', 'gte:1', 'lte:10', 'integer'],
+            'trigger_voltage' => ['required'],
+            'device_id' => ['required'],
         ];
     }
 }

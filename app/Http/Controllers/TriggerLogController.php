@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTriggerLogRequest;
 use App\Models\Device;
 use App\Models\TriggerLog;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateTriggerLogRequest;
 
 class TriggerLogController extends Controller
 {
@@ -16,13 +16,14 @@ class TriggerLogController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CreateTriggerLogRequest $request)
@@ -34,7 +35,7 @@ class TriggerLogController extends Controller
             ->first();
 
         return $deviceTriggerId ? TriggerLog::create([
-            'trigger_id' => $deviceTriggerId
+            'trigger_id' => $deviceTriggerId,
         ]) : response('No Trigger Set Up');
     }
 
@@ -42,11 +43,12 @@ class TriggerLogController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -54,21 +56,23 @@ class TriggerLogController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

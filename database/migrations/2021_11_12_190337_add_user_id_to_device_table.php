@@ -14,7 +14,7 @@ class AddUserIdToDeviceTable extends Migration
     public function up()
     {
         Schema::table('devices', function (Blueprint $table) {
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->nullable();
         });
     }
 

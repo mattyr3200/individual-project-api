@@ -24,8 +24,8 @@ class UpdateDeviceRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => "nullable",
-            'site' => "nullable",
+            'name' => 'nullable',
+            'site' => 'nullable',
         ];
     }
 }
