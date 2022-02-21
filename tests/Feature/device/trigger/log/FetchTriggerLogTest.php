@@ -2,6 +2,7 @@
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Device;
 use App\Models\Trigger;
 use App\Models\TriggerLog;
 use Laravel\Sanctum\Sanctum;
@@ -14,11 +15,11 @@ class FetchTriggerLogTest extends TestCase
     /** @test */
     public function device_fetch_trigger_logs()
     {
-        $this->withoutExceptionHandling();
-
         Sanctum::actingAs($user = User::factory()->create(), ['*']);
 
-        $trigger = Trigger::factory()->create();
+        $trigger = Trigger::factory()->create([
+            'device_id' => Device::factory()->create(['user_id' => $user->id])
+        ]);
 
         TriggerLog::factory(3)->create([
             'trigger_id' => $trigger->id

@@ -18,7 +18,7 @@ class TriggerLogController extends Controller
      */
     public function index(Device $device)
     {
-        if ($device->user_id === auth()->user()->id) {
+        if ($device->user_id !== auth()->user()->id) {
             return abort(401, "Unauthorized");
         }
 
