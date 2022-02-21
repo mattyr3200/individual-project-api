@@ -40,7 +40,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('trigger', TriggerController::class)->except('index');
 
-    Route::post('/log', [TriggerLogController::class, 'store'])->middleware('ability:create-trigger-log')->name('trigger.log.store');
+    Route::post('/log', [TriggerLogController::class, 'store'])->name('trigger.log.store');
     Route::get('/{device}/trigger/log', [TriggerLogController::class, 'index'])->name('trigger.log.index');
 
     Route::get('/{device}/triggers', [TriggerController::class, 'index'])->name('trigger.index');

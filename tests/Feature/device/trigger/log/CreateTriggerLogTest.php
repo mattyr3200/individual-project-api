@@ -15,8 +15,6 @@ class CreateTriggerLogTest extends TestCase
     /** @test */
     public function device_can_create_trigger_log()
     {
-        $this->withoutExceptionHandling();
-
         $trigger = Trigger::factory()->create([
             'trigger_voltage' => true
         ]);
@@ -70,5 +68,26 @@ class CreateTriggerLogTest extends TestCase
         $this->assertCount(0, TriggerLog::all());
         $this->assertCount(1, Device::all());
         $response->assertUnauthorized();
+    }
+
+    /** @test */
+    public function device_can_create_log_url()
+    {
+        $trigger = Trigger::factory()->create([
+            'trigger_voltage' => true
+        ]);
+
+        $token = $trigger->device->createToken("TEST TOKEN", ['create-trigger-log']);
+
+        $this->assertEquals($trigger->device->id, $trigger->device->tokens[0]->tokenable_id);
+
+        $response = $this->postJson("/api/log", [
+            "voltage" => true, //High Voltage
+            "wire" => $trigger->wire
+        ], [
+            'Authorization' => 'Bearer ' . $token->plainTextToken
+        ]);
+
+        $response->assertCreated();
     }
 }
