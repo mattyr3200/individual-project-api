@@ -3,20 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTriggerLogRequest;
+use App\Http\Resources\TriggerLogResource;
 use App\Models\Device;
 use App\Models\TriggerLog;
 use Illuminate\Http\Request;
+
+use function PHPUnit\Framework\isEmpty;
 
 class TriggerLogController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Device $device)
     {
-        
+        if ($device->user_id === auth()->user()->id) {
+            return abort(401, "Unauthorized");
+        }
+
+        return TriggerLogResource::collection($device->triggers()
+            ->with('triggerLogs')
+            ->get()
+            ->pluck('triggerLogs')[0]
+        );
     }
 
     /**
@@ -28,51 +38,20 @@ class TriggerLogController extends Controller
      */
     public function store(CreateTriggerLogRequest $request)
     {
-        $deviceTriggerId = Device::find($request->user()->currentAccessToken()->tokenable->id)
+        $deviceTriggers = Device::find($request->user()->currentAccessToken()->tokenable->id)
             ->triggers()
             ->where('wire', $request->wire)
             ->where('trigger_voltage', $request->voltage)
-            ->first();
+            ->get();
 
-        return $deviceTriggerId ? TriggerLog::create([
-            'trigger_id' => $deviceTriggerId,
-        ]) : response('No Trigger Set Up');
-    }
+        if ($deviceTriggers) {
+            foreach ($deviceTriggers as $trigger) {
+                TriggerLog::create([
+                    'trigger_id' => $trigger->id,
+                ]);
+            }
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        
+        return (count($deviceTriggers) >= 1) ? response ("Trigger Logged", 201)  : response('No Trigger Set Up');
     }
 }

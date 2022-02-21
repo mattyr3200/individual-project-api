@@ -15,6 +15,8 @@ class CreateTriggerLogTest extends TestCase
     /** @test */
     public function device_can_create_trigger_log()
     {
+        $this->withoutExceptionHandling();
+
         $trigger = Trigger::factory()->create([
             'trigger_voltage' => true
         ]);

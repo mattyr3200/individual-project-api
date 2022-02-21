@@ -22,10 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::get('/{device}/token', [DeviceTokenController::class, 'create'])->name('device.token.create');
 
 Route::post('/login', LoginController::class)->name('login');
@@ -36,6 +32,8 @@ Route::get('/status', StatusCheckController::class)->name('status');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', LogoutController::class)->name('logout');
 
+    Route::get('/device/status', StatusCheckController::class)->name('device.status'); // similar to one above for now
+
     Route::get('/user', UserController::class)->name('user');
 
     Route::apiResource('device', DeviceController::class);
@@ -44,7 +42,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/trigger/log', [TriggerLogController::class, 'store'])->middleware('ability:create-trigger-log')->name('trigger.log.store');
 
-    Route::apiResource('triggerLog', TriggerLogController::class)->except('index');
+    Route::apiResource('triggerLog', TriggerLogController::class)->only('store');
+    Route::get('/{device}/trigger/log', [TriggerLogController::class, 'index'])->name('trigger.log.index');
 
     Route::get('/{device}/triggers', [TriggerController::class, 'index'])->name('trigger.index');
 
