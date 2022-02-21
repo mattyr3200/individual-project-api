@@ -25,7 +25,8 @@ class TriggerLogController extends Controller
         return TriggerLogResource::collection($device->triggers()
             ->with('triggerLogs')
             ->get()
-            ->pluck('triggerLogs')[0]
+            ->pluck('triggerLogs')
+            ->flatten()
         );
     }
 

@@ -36,4 +36,39 @@ class FetchTriggerLogTest extends TestCase
         $this->assertArrayHasKey("trigger_voltage",  $response->json()[0]);
         $this->assertArrayHasKey("trigger_time",  $response->json()[0]);
     }
+
+    /** @test */
+    public function two_triggers_fetch_trigger_logs()
+    {
+        Sanctum::actingAs($user = User::factory()->create(), ['*']);
+
+        $device = Device::factory()->create(['user_id' => $user->id]);
+
+        $trigger = Trigger::factory(3)->create([
+            'device_id' => $device->id
+        ]);
+
+        TriggerLog::factory(3)->create([
+            'trigger_id' => $trigger[0]->id
+        ]);
+
+        TriggerLog::factory(3)->create([
+            'trigger_id' => $trigger[1]->id
+        ]);
+
+        TriggerLog::factory(3)->create([
+            'trigger_id' => $trigger[2]->id
+        ]);
+
+        $response = $this->getJson(route('trigger.log.index', $device->id));
+
+        $response->assertJsonCount(9);
+
+        $this->assertArrayHasKey("log_id",  $response->json()[0]);
+        $this->assertArrayHasKey("name",  $response->json()[0]);
+        $this->assertArrayHasKey("description",  $response->json()[0]);
+        $this->assertArrayHasKey("wire",  $response->json()[0]);
+        $this->assertArrayHasKey("trigger_voltage",  $response->json()[0]);
+        $this->assertArrayHasKey("trigger_time",  $response->json()[0]);
+    }
 }
