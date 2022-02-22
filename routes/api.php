@@ -9,6 +9,7 @@ use App\Http\Controllers\Tokens\DeviceTokenController;
 use App\Http\Controllers\TriggerController;
 use App\Http\Controllers\TriggerLogController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WeeklyDeviceTriggers;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('trigger', TriggerController::class)->except('index');
 
     Route::post('/log', [TriggerLogController::class, 'store'])->name('trigger.log.store');
+    Route::get('{device}/log/week', WeeklyDeviceTriggers::class)->name('weekly.triggers');
     Route::get('/{device}/trigger/log', [TriggerLogController::class, 'index'])->name('trigger.log.index');
 
     Route::get('/{device}/triggers', [TriggerController::class, 'index'])->name('trigger.index');

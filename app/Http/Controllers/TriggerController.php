@@ -71,7 +71,7 @@ class TriggerController extends Controller
      */
     public function update(Request $request, Trigger $trigger)
     {
-        
+
     }
 
     /**
@@ -83,6 +83,8 @@ class TriggerController extends Controller
      */
     public function destroy(Trigger $trigger)
     {
-        
+        $trigger->delete();
+
+        return response("Trigger Deleted", 204);
     }
 }
