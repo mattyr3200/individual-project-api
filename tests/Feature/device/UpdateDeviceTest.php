@@ -23,7 +23,7 @@ class UpdateDeviceTest extends TestCase
             'name' => "TEST NAME"
         ])->json();
 
-        $this->assertCount(3, $response);
+        $this->assertCount(4, $response);
         $this->assertSame("TEST NAME", $response['name']);
         $this->assertSame("Home", $response['site']);
         $this->assertSame($device->id, $response['id']);

@@ -19,7 +19,7 @@ class CreateDeviceTest extends TestCase
             'site' => "Default",
         ])->json();
 
-        $this->assertCount(3, $device);
+        $this->assertCount(4, $device);
         $this->assertSame("TEST NAME", $device['name']);
         $this->assertSame("Default", $device['site']);
         $this->assertNotNull($device['id']);

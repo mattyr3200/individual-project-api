@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ChangeDeviceStatusController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\StatusCheckController;
 use App\Http\Controllers\Tokens\DeviceTokenController;
@@ -34,6 +35,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', LogoutController::class)->name('logout');
 
     Route::get('/device/status', StatusCheckController::class)->name('device.status'); // similar to one above for now
+    Route::post('/{device}/arm', ChangeDeviceStatusController::class)->name('device.arm');;
 
     Route::get('/user', UserController::class)->name('user');
 

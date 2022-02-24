@@ -7,6 +7,7 @@ use App\Http\Resources\TriggerLogResource;
 use App\Models\Device;
 use App\Models\TriggerLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -27,6 +28,7 @@ class TriggerLogController extends Controller
             ->get()
             ->pluck('triggerLogs')
             ->flatten()
+            ->sortByDesc('created_at')
         );
     }
 
@@ -44,6 +46,13 @@ class TriggerLogController extends Controller
             ->where('wire', $request->wire)
             ->where('trigger_voltage', $request->voltage)
             ->get();
+
+        Log::info($deviceTriggers);
+        Log::info([
+            "User_ID" => $request->user()->currentAccessToken()->tokenable->id,
+            "wire" => $request->wire,
+            "voltage" => $request->voltage,
+        ]);
 
         if ($deviceTriggers) {
             foreach ($deviceTriggers as $trigger) {

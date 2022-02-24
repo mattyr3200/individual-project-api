@@ -14,6 +14,9 @@ class Device extends Model
     use HasFactory, UUID, SoftDeletes, HasApiTokens;
 
     protected $guarded = [];
+    protected $casts = [
+        'is_armed' => "boolean"
+    ];
 
     public function triggers(): HasMany
     {

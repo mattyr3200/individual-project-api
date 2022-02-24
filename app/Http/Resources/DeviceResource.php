@@ -19,6 +19,7 @@ class DeviceResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'site' => $this->site,
+            'is_armed' => $this->is_armed
         ];
     }
 }

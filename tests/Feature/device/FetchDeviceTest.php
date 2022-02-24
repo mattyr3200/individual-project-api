@@ -22,7 +22,7 @@ class FetchDeviceTest extends TestCase
         $response = $this->getJson(route('device.index'))->json();
 
         $this->assertCount(1, $response);
-        $this->assertCount(3, $response[0]);
+        $this->assertCount(4, $response[0]);
 
         $this->assertSame($device->name, $response[0]['name']);
         $this->assertSame($device->site, $response[0]['site']);
@@ -40,7 +40,7 @@ class FetchDeviceTest extends TestCase
 
         $response = $this->getJson(route('device.show', ['device' => $device]))->json();
 
-        $this->assertCount(3, $response);
+        $this->assertCount(4, $response);
 
         $this->assertSame($device->name, $response['name']);
         $this->assertSame($device->site, $response['site']);
