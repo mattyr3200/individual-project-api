@@ -5,8 +5,11 @@ use App\Models\User;
 use App\Models\Device;
 use App\Models\Trigger;
 use App\Models\TriggerLog;
+use App\Notifications\TriggerLogCreatedNotification;
 use Laravel\Sanctum\Sanctum;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class CreateTriggerLogTest extends TestCase
 {
@@ -15,6 +18,8 @@ class CreateTriggerLogTest extends TestCase
     /** @test */
     public function device_can_create_trigger_log()
     {
+        $this->withoutExceptionHandling();
+
         $trigger = Trigger::factory()->create([
             'trigger_voltage' => true
         ]);
@@ -87,6 +92,38 @@ class CreateTriggerLogTest extends TestCase
         ], [
             'Authorization' => 'Bearer ' . $token->plainTextToken
         ]);
+
+        $response->assertCreated();
+    }
+
+    /** @test */
+    public function notification_is_sent_on_trigger_log_creation()
+    {
+        Notification::fake();
+
+        $trigger = Trigger::factory()->create([
+            'trigger_voltage' => true
+        ]);
+
+        $token = $trigger->device->createToken("TEST TOKEN", ['create-trigger-log']);
+
+        $this->assertEquals($trigger->device->id, $trigger->device->tokens[0]->tokenable_id);
+
+        Notification::assertNothingSent();
+
+        $response = $this->postJson("/api/log", [
+            "voltage" => true, //High Voltage
+            "wire" => $trigger->wire
+        ], [
+            'Authorization' => 'Bearer ' . $token->plainTextToken
+        ]);
+
+        Notification::assertSentTo(
+            [$trigger->device->user],
+            function (TriggerLogCreatedNotification $notification, $channels) use ($trigger) {
+                return $notification->triggerLog->trigger->id === $trigger->id;
+            }
+        );
 
         $response->assertCreated();
     }
