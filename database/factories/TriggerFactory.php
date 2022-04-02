@@ -28,6 +28,7 @@ class TriggerFactory extends Factory
             "wire" => $this->faker->randomDigit(),
             "trigger_voltage" => $this->faker->boolean(),
             "device_id" => Device::factory()->create()->id,
+            "email_notify" => false,
         ];
     }
 }

@@ -18,8 +18,6 @@ class CreateTriggerLogTest extends TestCase
     /** @test */
     public function device_can_create_trigger_log()
     {
-        $this->withoutExceptionHandling();
-
         $trigger = Trigger::factory()->create([
             'trigger_voltage' => true
         ]);
@@ -97,13 +95,16 @@ class CreateTriggerLogTest extends TestCase
     }
 
     /** @test */
-    public function notification_is_sent_on_trigger_log_creation()
+    public function notification_is_sent_on_trigger_log_creation_when_alarm_is_armed()
     {
         Notification::fake();
 
         $trigger = Trigger::factory()->create([
-            'trigger_voltage' => true
+            'trigger_voltage' => true,
+            'email_notify' => true
         ]);
+
+        $trigger->device->update(["is_armed" => true]);
 
         $token = $trigger->device->createToken("TEST TOKEN", ['create-trigger-log']);
 
@@ -124,6 +125,34 @@ class CreateTriggerLogTest extends TestCase
                 return $notification->triggerLog->trigger->id === $trigger->id;
             }
         );
+
+        $response->assertCreated();
+    }
+
+    /** @test */
+    public function notification_is_not_sent_on_trigger_log_creation_when_alarm_is_un_armed()
+    {
+        Notification::fake();
+
+        $trigger = Trigger::factory()->create([
+            'trigger_voltage' => true,
+            'email_notify' => true
+        ]);
+
+        $token = $trigger->device->createToken("TEST TOKEN", ['create-trigger-log']);
+
+        $this->assertEquals($trigger->device->id, $trigger->device->tokens[0]->tokenable_id);
+
+        Notification::assertNothingSent();
+
+        $response = $this->postJson("/api/log", [
+            "voltage" => true, //High Voltage
+            "wire" => $trigger->wire
+        ], [
+            'Authorization' => 'Bearer ' . $token->plainTextToken
+        ]);
+
+        Notification::assertNothingSent();
 
         $response->assertCreated();
     }

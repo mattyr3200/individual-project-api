@@ -28,6 +28,7 @@ class CreateTriggerRequest extends FormRequest
             'description' => ['required'],
             'wire' => ['required', 'gte:1', 'lte:10', 'integer'],
             'trigger_voltage' => ['required', "boolean"],
+            'email_notify' => ['required', "boolean"],
             'device_id' => ['required'],
         ];
     }

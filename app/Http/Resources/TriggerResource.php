@@ -21,6 +21,7 @@ class TriggerResource extends JsonResource
             'description' => $this->description,
             'wire' => $this->wire,
             'trigger_voltage' => $this->trigger_voltage,
+            'email_notify' => $this->email_notify,
             'device' => $this->device,
         ];
     }

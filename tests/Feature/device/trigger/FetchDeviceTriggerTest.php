@@ -27,7 +27,7 @@ class FetchDeviceTriggerTest extends TestCase
         $response = $this->getJson(route('trigger.index', ['device' => $trigger->device]))->json();
 
         $this->assertCount(1, $response);
-        $this->assertCount(6, $response[0]);
+        $this->assertCount(7, $response[0]);
 
         $this->assertEquals($trigger->id, $response[0]['id']);
         $this->assertEquals($trigger->name, $response[0]['name']);
@@ -51,7 +51,7 @@ class FetchDeviceTriggerTest extends TestCase
 
         $response = $this->getJson(route('trigger.show', $trigger->id))->json();
 
-        $this->assertCount(6, $response);
+        $this->assertCount(7, $response);
 
         $this->assertEquals($trigger->id, $response['id']);
         $this->assertEquals($trigger->name, $response['name']);

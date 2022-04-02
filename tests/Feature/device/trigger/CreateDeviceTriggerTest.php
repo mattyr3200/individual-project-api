@@ -19,16 +19,18 @@ class CreateDeviceTriggerTest extends TestCase
             "name" => "TEST NAME",
             "description" => "TEST DESCRIPTION",
             "wire" => "1",
+            "email_notify" => true,
             "trigger_voltage" => true,
             "device_id" => $deviceId = Device::factory()->create()->id,
         ])->json();
 
-        $this->assertCount(6, $trigger);
+        $this->assertCount(7, $trigger);
 
         $this->assertSame("TEST NAME", $trigger['name']);
         $this->assertSame("TEST DESCRIPTION", $trigger['description']);
         $this->assertSame("1", $trigger['wire']);
         $this->assertTrue($trigger['trigger_voltage']);
+        $this->assertTrue($trigger['email_notify']);
         $this->assertsame($deviceId, $trigger['device']['id']);
     }
 }

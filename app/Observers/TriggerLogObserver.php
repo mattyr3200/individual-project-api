@@ -15,7 +15,9 @@ class TriggerLogObserver
      */
     public function created(TriggerLog $triggerLog)
     {
-        $triggerLog->trigger->device->user->notify(new TriggerLogCreatedNotification($triggerLog));
+        if ($triggerLog->trigger->email_notify == true && $triggerLog->trigger->device->is_armed == true) {
+            $triggerLog->trigger->device->user->notify(new TriggerLogCreatedNotification($triggerLog));
+        }
     }
 
     /**
