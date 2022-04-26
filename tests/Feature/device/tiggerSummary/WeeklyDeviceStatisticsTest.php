@@ -46,8 +46,11 @@ class WeeklyDeviceStatisticsTest extends TestCase
         $response = $this->getJson(route('weekly.triggers', $device))->json();
 
         $this->assertCount(7, $response);
+        $date = now()->subWeek()->addDay();
 
         for ($i = 0; $i < 6; $i++){
+            $this->assertEquals($date->format("Y-m-d"), $response[$i][0]);
+            $date->addDay();
             $this->assertCount(2, $response[$i]);
         }
     }

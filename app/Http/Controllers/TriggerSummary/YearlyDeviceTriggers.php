@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\TriggerSummary;
 
+use Carbon\Carbon;
 use App\Models\Device;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
-class WeeklyDeviceTriggers extends Controller
+class YearlyDeviceTriggers extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,7 +18,7 @@ class WeeklyDeviceTriggers extends Controller
      */
     public function __invoke(Device $device)
     {
-        $period = CarbonPeriod::create(now()->subWeek()->addDay()->format('Y-m-d'), now()->format('Y-m-d'))->toArray();
+        $period = CarbonPeriod::create(now()->subYear()->addDay()->format('Y-m-d'), now()->format('Y-m-d'))->toArray();
 
         $days = [];
 
@@ -32,8 +34,8 @@ class WeeklyDeviceTriggers extends Controller
                     ->where('trigger_logs.created_at',">=", now()->subWeek());
             })
             ->groupBy(DB::raw('Date(trigger_logs.created_at)'))
-            ->orderBy(DB::raw('Date(trigger_logs.created_at)'))
             ->select(DB::raw('Date(trigger_logs.created_at) as date'), DB::raw('count(*) as total'))
+            ->orderBy(DB::raw('Date(trigger_logs.created_at)'))
             ->get();
 
         foreach ($weeklyTriggerTotals as $triggerTotal) {
